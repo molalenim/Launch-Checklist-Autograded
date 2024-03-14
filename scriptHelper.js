@@ -61,6 +61,8 @@ function formSubmission(document, list, pilotName, copilotName, fuelLevel, cargo
         return;
     }
 
+
+
     //check for non-numeric input
     if (fuelLevelStatus === "Not a Number" || cargoMassStatus === "Not a Number") {
         // console.log("Non-numeric input detected.");
