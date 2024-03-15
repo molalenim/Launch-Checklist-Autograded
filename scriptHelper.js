@@ -1,29 +1,24 @@
 // Write your helper functions here!
 
-require("cross-fetch/polyfill");
+// require('cross-fetch/polyfill');
 
-function addDestinationInfo(
-  document,
-  name,
-  diameter,
-  star,
-  distance,
-  moons,
-  imageUrl
-) {
-  // Here is the HTML formatting for our mission target div.
-  /*
-                 <h2>Mission Destination</h2>
-                 <ol>
-                     <li>Name: </li>
-                     <li>Diameter: </li>
-                     <li>Star: ${star}</li>
-                     <li>Distance from Earth: </li>
-                     <li>Number of Moons: </li>
-                 </ol>
-                 <img src="">
-    */
-}
+////task 3
+function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
+    const missionTarget = document.getElementById("missionTarget");
+  
+    // Construct the HTML structure
+    missionTarget.innerHTML = `
+      <h2>Mission Destination</h2>
+      <ol>
+          <li>Name: ${name} </li>
+          <li>Diameter: ${diameter}</li>
+          <li>Star: ${star}</li>
+          <li>Distance from Earth: ${distance} </li>
+          <li>Number of Moons: ${moons}</li>
+      </ol>
+      <img src="${imageUrl}">
+    `;
+  }
 
 function validateInput(testInput) {
     if (typeof testInput !== 'string') {
@@ -39,29 +34,27 @@ function validateInput(testInput) {
 // maybe remove document from as parameter, it's already available in global scope? Also, I still don't know what list is for...ask phillip
 function formSubmission(document, list, pilotName, copilotName, fuelLevel, cargoMass) {   
     
-    // console.log("FORMSUBMISSION FUNCTION CALLED.");
+    
+    //convert fuelLevel to a string
+    fuelLevel = String(fuelLevel);
+    cargoMass = String(cargoMass);
 
     let pilotStatus = validateInput(pilotName);
     let coPilotStatus = validateInput(copilotName);
     let fuelLevelStatus = validateInput(fuelLevel);
     let cargoMassStatus = validateInput(cargoMass);
+
     let faultyItems = list; // Use the list parameter directly
     let launchStatus = document.getElementById("launchStatus");
     
-    // //DEBUGGING: LOG VALUES FOR VALIDATION
-    //    console.log("Pilot Status:", pilotStatus);
-    //    console.log("Co-pilot Status:", coPilotStatus);
-    //    console.log("Fuel Level Status:", fuelLevelStatus);
-    //    console.log("Cargo Mass Status:", cargoMassStatus);  
+   
 
     //validate input field for empty fields 
     if (pilotName.trim() === "" || copilotName.trim() === "" || fuelLevel.trim() === "" || cargoMass.trim() === "") {
-        // console.log("Missing fields detected.");
+         console.log("Missing fields detected.");
         alert("All fields are required!"); // Alert for missing fields
         return;
     }
-
-
 
     //check for non-numeric input
     if (fuelLevelStatus === "Not a Number" || cargoMassStatus === "Not a Number") {
@@ -71,7 +64,7 @@ function formSubmission(document, list, pilotName, copilotName, fuelLevel, cargo
 
     // Check for non-string input
     if (pilotStatus === "Not a String" || coPilotStatus === "Not a String") {
-        // console.log("Non-string input detected.");
+        
         alert("Pilot and co-pilot names must be strings!");
         return;
     }
@@ -92,7 +85,7 @@ function formSubmission(document, list, pilotName, copilotName, fuelLevel, cargo
 
 
     //update visibility of faulty items
-    faultyItems.style.visibility = (pilotStatus === "Empty" || coPilotStatus === "Empty" || fuelLevelStatus === "Empty" || cargoMassStatus === "Empty") ?
+    list.style.visibility = (pilotStatus === "Empty" || coPilotStatus === "Empty" || fuelLevelStatus === "Empty" || cargoMassStatus === "Empty") ?
         "visible" : "hidden";
 
     //update launch status text and color
@@ -102,19 +95,34 @@ function formSubmission(document, list, pilotName, copilotName, fuelLevel, cargo
         "red" : "green";   
        
 }
-
+////task 3
 async function myFetch() {
-  let planetsReturned;
+    try {
+      const response = await fetch("https://handlers.education.launchcode.org/static/planets.json");
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const planetsReturned = await response.json();
+      return planetsReturned;
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  }
+  
+  
 
-  planetsReturned = await fetch().then(function (response) {});
-
-  return planetsReturned;
+function pickPlanet(planets) {
+    //get random index in the range of the planets array length
+    const randomIndex = Math.floor(Math.random() * planets.length);
+    return planets[randomIndex]
 }
-
-function pickPlanet(planets) {}
 
 module.exports.addDestinationInfo = addDestinationInfo;
 module.exports.validateInput = validateInput;
 module.exports.formSubmission = formSubmission;
 module.exports.pickPlanet = pickPlanet;
 module.exports.myFetch = myFetch;
+
+
+
+
