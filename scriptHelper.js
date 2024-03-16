@@ -32,47 +32,47 @@ function validateInput(input) {
 }
 
 function formSubmission(document, faultyItems, pilotName, coPilotName, fuelLevel, cargoMass) {
-    console.log("Input values:", pilotName, coPilotName, fuelLevel, cargoMass);
+   
 
     // Validate input fields and generate status messages
-    let pilotStatus = isNaN(parseFloat(pilotName)) && pilotName.trim() !== ""
+    let pilotStatus = !isANumber(pilotName) && pilotName.trim() !== ""
         ? `Pilot ${pilotName} is ready for launch`
         : `Pilot ${pilotName} is not ready for launch`;
 
-    let coPilotStatus = isNaN(parseFloat(coPilotName)) && coPilotName.trim() !== ""
+    let coPilotStatus = !isANumber(coPilotName) && coPilotName.trim() !== ""
         ? `Co-pilot ${coPilotName} is ready for launch`
         : `Co-pilot ${coPilotName} is not ready for launch`;
 
-    let fuelLevelStatus = !isNaN(parseFloat(fuelLevel)) && fuelLevel >= 10000
+    let fuelLevelStatus = isANumber(fuelLevel) && fuelLevel >= 10000
         ? "Fuel level high enough for launch"
         : "Fuel level too low for launch";
 
-    let cargoMassStatus = !isNaN(parseFloat(cargoMass)) && cargoMass <= 10000
+    let cargoMassStatus = isANumber(cargoMass) && cargoMass <= 10000
         ? "Cargo mass low enough for launch"
         : "Cargo mass too heavy for launch";
 
-    console.log("Status messages:", pilotStatus, coPilotStatus, fuelLevelStatus, cargoMassStatus);
+   
 
     // Update pilot status
-    console.log("Updating pilot status:", pilotStatus);
+    
     document.getElementById("pilotStatus").textContent = pilotStatus.toString();
 
     // Update co-pilot status
-    console.log("Updating co-pilot status:", coPilotStatus);
+    
     document.getElementById("copilotStatus").textContent = coPilotStatus.toString();
 
     // Update fuel status
-    console.log("Updating fuel status:", fuelLevelStatus);
+
     document.getElementById("fuelStatus").textContent = fuelLevelStatus;
 
     // Update cargo status
-    console.log("Updating cargo status:", cargoMassStatus);
+    
     document.getElementById("cargoStatus").textContent = cargoMassStatus;
 
     // Determine if the shuttle is ready for launch
     let isShuttleReady = pilotStatus.includes("ready") && coPilotStatus.includes("ready") && fuelLevelStatus.includes("high enough") && cargoMassStatus.includes("low enough");
     
-    console.log("Is shuttle ready for launch:", isShuttleReady);
+   
 
     // Update launch status text and color
     const launchStatus = document.getElementById("launchStatus");
@@ -82,10 +82,21 @@ function formSubmission(document, faultyItems, pilotName, coPilotName, fuelLevel
     launchStatus.style.color = isShuttleReady ? "green" : "red";
 
     // Determine visibility of faultyItems
-    faultyItems.style.visibility = !isShuttleReady || (!isNaN(parseFloat(fuelLevel)) && !isNaN(parseFloat(cargoMass))) ? "visible" : "hidden";
+    faultyItems.style.visibility = !isShuttleReady || (isANumber(fuelLevel) && isANumber(cargoMass)) ? "visible" : "hidden";
 
-    console.log("Faulty items visibility:", faultyItems.style.visibility);
+    
 }
+
+
+
+////Abstractor and Dryer function
+function isANumber(value) {
+  let parsedValue = parseFloat(value);
+  return !isNaN(parsedValue) && isFinite(parsedValue);
+}
+
+
+
 
 
 ////task 3
@@ -109,6 +120,8 @@ function pickPlanet(planets) {
   const randomIndex = Math.floor(Math.random() * planets.length);
   return planets[randomIndex];
 }
+
+module.exports = { isANumber };
 
 module.exports.addDestinationInfo = addDestinationInfo;
 module.exports.validateInput = validateInput;

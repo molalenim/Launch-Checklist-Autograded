@@ -1,4 +1,6 @@
 // Write your JavaScript code here!
+const{ isANumber } = require('./scriptHelper.js');
+
 ////task 3
 
 window.addEventListener("load", function () {
@@ -22,6 +24,8 @@ window.addEventListener("load", function () {
         planet.distance,
         planet.moons,
         planet.image
+
+
       );
     });
 
@@ -46,7 +50,7 @@ submitButton.addEventListener("click", function (event) {
     }
 
     // Check if pilot and copilot are numeric
-    if (!isNaN(pilot) || !isNaN(copilot)) {
+    if (!isANumber(pilot) || !isANumber(copilot)) {
         alert("Please enter a valid name for Pilot and Co-pilot.");
         return; // Stop further execution
     }
