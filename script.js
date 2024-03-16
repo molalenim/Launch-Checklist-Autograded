@@ -25,38 +25,38 @@ window.addEventListener("load", function () {
       );
     });
 
-  ////task 2
-  const submitButton = document.querySelector("#formSubmit");
+ ////task 2
+const submitButton = document.querySelector("#formSubmit");
 
 submitButton.addEventListener("click", function (event) {
     // Prevent default form submission behavior
     event.preventDefault();
 
     // Get form input values
-    let pilotName = document.querySelector("#pilotName").value;
-    let copilotName = document.querySelector("input[name='copilotName']").value;
+    let pilot = document.querySelector("#pilotName").value; // Changed variable name to pilot
+    let copilot = document.querySelector("input[name='copilotName']").value;
     let fuelLevel = document.querySelector("input[name='fuelLevel']").value;
     let cargoMass = document.querySelector("input[name='cargoMass']").value;
     let list = document.getElementById("faultyItems"); // Retrieve the list element
 
     // Check if form fields are empty
-    if (pilotName === "" || copilotName === "" || fuelLevel === "" || cargoMass === "") {
+    if (pilot === "" || copilot === "" || fuelLevel === "" || cargoMass === "") {
         alert("All fields are required!");
         return; // Exit early if any field is empty
     }
 
-    // Check if pilotName and coPilotName are numeric
-    if (!isNaN(pilotName) || !isNaN(copilotName)) {
-      alert("Please enter a valid name for Pilot and Co-pilot.");
-      return; // Stop further execution
-  }
+    // Check if pilot and copilot are numeric
+    if (!isNaN(pilot) || !isNaN(copilot)) {
+        alert("Please enter a valid name for Pilot and Co-pilot.");
+        return; // Stop further execution
+    }
 
     // Call formSubmission function to validate
     formSubmission(
         document,
         list,
-        pilotName,
-        copilotName,
+        pilot, // Changed variable name to pilot
+        copilot,
         fuelLevel,
         cargoMass
     );

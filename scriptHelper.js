@@ -29,21 +29,6 @@ function addDestinationInfo(
 }
 
 
-//this may be over kill
-// function validateInput(testInput) {
-//     if (typeof testInput !== "string") {
-//       return "Not a String";
-//     } else if (testInput.trim() === "") {
-//       return "Empty";
-//     } else if (!isNaN(parseFloat(testInput))) {
-//       return "Numeric"; // Changed from "Not a Number"
-//     } else {
-//       return "Is a String"; // Changed from "Is a Number"
-//     }
-//   }
-
-
-
 function validateInput(input) {
     if (isNaN(input)) {
         return "Not a Number";
@@ -54,11 +39,8 @@ function validateInput(input) {
     }
 }
 
-
-
-
 function formSubmission(document, faultyItems, pilotName, coPilotName, fuelLevel, cargoMass) {
- 
+    console.log("Input values:", pilotName, coPilotName, fuelLevel, cargoMass);
 
     // Validate input fields and generate status messages
     let pilotStatus = isNaN(parseFloat(pilotName)) && pilotName.trim() !== ""
@@ -77,21 +59,29 @@ function formSubmission(document, faultyItems, pilotName, coPilotName, fuelLevel
         ? "Cargo mass low enough for launch"
         : "Cargo mass too heavy for launch";
 
+    console.log("Status messages:", pilotStatus, coPilotStatus, fuelLevelStatus, cargoMassStatus);
+
     // Update pilot status
+    console.log("Updating pilot status:", pilotStatus);
     document.getElementById("pilotStatus").textContent = pilotStatus.toString();
 
     // Update co-pilot status
+    console.log("Updating co-pilot status:", coPilotStatus);
     document.getElementById("copilotStatus").textContent = coPilotStatus.toString();
 
     // Update fuel status
+    console.log("Updating fuel status:", fuelLevelStatus);
     document.getElementById("fuelStatus").textContent = fuelLevelStatus;
 
     // Update cargo status
+    console.log("Updating cargo status:", cargoMassStatus);
     document.getElementById("cargoStatus").textContent = cargoMassStatus;
 
     // Determine if the shuttle is ready for launch
     let isShuttleReady = pilotStatus.includes("ready") && coPilotStatus.includes("ready") && fuelLevelStatus.includes("high enough") && cargoMassStatus.includes("low enough");
     
+    console.log("Is shuttle ready for launch:", isShuttleReady);
+
     // Update launch status text and color
     const launchStatus = document.getElementById("launchStatus");
     launchStatus.textContent = isShuttleReady
@@ -100,19 +90,10 @@ function formSubmission(document, faultyItems, pilotName, coPilotName, fuelLevel
     launchStatus.style.color = isShuttleReady ? "green" : "red";
 
     // Determine visibility of faultyItems
-    faultyItems.style.visibility = isShuttleReady ? "hidden" : "visible";
+    faultyItems.style.visibility = !isShuttleReady || (!isNaN(parseFloat(fuelLevel)) && !isNaN(parseFloat(cargoMass))) ? "visible" : "hidden";
+
+    console.log("Faulty items visibility:", faultyItems.style.visibility);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 ////task 3
