@@ -21,7 +21,7 @@ window.addEventListener("load", function () {
         planet.star,
         planet.distance,
         planet.moons,
-        planet.imageUrl
+        planet.image
       );
     });
 

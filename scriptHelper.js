@@ -3,15 +3,7 @@
 require('cross-fetch/polyfill');
 
 ////task 3
-function addDestinationInfo(
-  document,
-  name,
-  diameter,
-  star,
-  distance,
-  moons,
-  imageUrl
-) {
+function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
   const missionTarget = document.getElementById("missionTarget");
 
   // Construct the HTML structure
